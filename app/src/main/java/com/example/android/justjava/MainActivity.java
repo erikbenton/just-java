@@ -34,18 +34,31 @@ public class MainActivity extends AppCompatActivity
      */
     public void submitOrder(View view)
     {
-        int price = quantity * 5;
-        String priceMessage = "Total: $" + price + "\nThank You!";
-        displayMessage(priceMessage);
+        int price = calculatePrice();
+        displayMessage(createOrderSummary(price));
+    }
+
+    private int calculatePrice()
+    {
+        return quantity * 5;
+    }
+
+    private String createOrderSummary(int price)
+    {
+        String orderSummary = "Name: Erik Benton\n";
+        orderSummary += "Quantity: " + quantity + "\n";
+        orderSummary += "Total: $" + price + "\n";
+        orderSummary += "Thank You!";
+        return orderSummary;
     }
 
     /**
      * This method displays the given quantity value on the screen.
      */
-    private void displayQuantity(int number)
+    private void displayQuantity(int quantity)
     {
         TextView quantityTextView = (TextView) findViewById(R.id.quantity_text_view);
-        quantityTextView.setText("" + number);
+        quantityTextView.setText("" + quantity);
     }
 
     /**
@@ -53,8 +66,8 @@ public class MainActivity extends AppCompatActivity
      */
     private void displayMessage(String message)
     {
-        TextView priceTextView = (TextView) findViewById(R.id.price_text_view);
-        priceTextView.setText(message);
+        TextView orderSummaryTextView = (TextView) findViewById(R.id.order_summary_text_view);
+        orderSummaryTextView.setText(message);
     }
 
     /**
