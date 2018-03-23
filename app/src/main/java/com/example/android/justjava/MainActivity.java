@@ -9,10 +9,10 @@
 package com.example.android.justjava;
 
 
-
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.TextView;
 /**
  * This app displays an order form to order coffee.
@@ -21,6 +21,7 @@ public class MainActivity extends AppCompatActivity
 {
 
     int quantity = 2;
+    boolean hasWhippedCream = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -34,8 +35,10 @@ public class MainActivity extends AppCompatActivity
      */
     public void submitOrder(View view)
     {
+        CheckBox whippedCreamCheckBox = (CheckBox) findViewById(R.id.whipped_cream_checkbox);
         int price = calculatePrice();
-        displayMessage(createOrderSummary(price));
+        boolean hasWhippedCream = whippedCreamCheckBox.isChecked();
+        displayMessage(createOrderSummary(price, hasWhippedCream));
     }
 
     private int calculatePrice()
@@ -43,10 +46,11 @@ public class MainActivity extends AppCompatActivity
         return quantity * 5;
     }
 
-    private String createOrderSummary(int price)
+    private String createOrderSummary(int price, boolean addWhippedCream)
     {
         String orderSummary = "Name: Erik Benton\n";
         orderSummary += "Quantity: " + quantity + "\n";
+        orderSummary += "Add whipped cream? " + addWhippedCream + "\n";
         orderSummary += "Total: $" + price + "\n";
         orderSummary += "Thank You!";
         return orderSummary;
