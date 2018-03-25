@@ -9,12 +9,17 @@
 package com.example.android.justjava;
 
 
+import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
 /**
  * This app displays an order form to order coffee.
  */
@@ -42,7 +47,20 @@ public class MainActivity extends AppCompatActivity
         boolean hasWhippedCream = whippedCreamCheckBox.isChecked();
         boolean hasChocolate = chocloateCheckBox.isChecked();
         int price = calculatePrice(hasWhippedCream, hasChocolate);
-        displayMessage(createOrderSummary(name, price, hasWhippedCream, hasChocolate));
+        String message = createOrderSummary(name, price, hasWhippedCream, hasChocolate);
+        String subject = "JustJava order for " + name;
+        sendEmail(message, subject);
+    }
+
+    public void sendEmail(String message, String subject)
+    {
+        Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.parse("mailto:"));
+        emailIntent.putExtra(Intent.EXTRA_SUBJECT, subject);
+        emailIntent.putExtra(Intent.EXTRA_TEXT, message);
+        if (emailIntent.resolveActivity(getPackageManager()) != null)
+        {
+            startActivity(emailIntent);
+        }
     }
 
     private int calculatePrice(boolean hasWhippedCream, boolean hasChocolate)
@@ -83,21 +101,25 @@ public class MainActivity extends AppCompatActivity
     }
 
     /**
-     * This method displays the given text on the screen
-     */
-    private void displayMessage(String message)
-    {
-        TextView orderSummaryTextView = (TextView) findViewById(R.id.order_summary_text_view);
-        orderSummaryTextView.setText(message);
-    }
-
-    /**
      * This method increments the quantity
      */
     public void increment(View view)
     {
-        quantity = quantity + 1;
-        displayQuantity(quantity);
+        int maxCups = 100;
+        if(quantity < maxCups)
+        {
+            quantity = quantity + 1;
+            displayQuantity(quantity);
+        }
+        else
+        {
+            Context context = getApplicationContext();
+            CharSequence text = "Can't order more than" + maxCups + " cups";
+            int duration = Toast.LENGTH_SHORT;
+
+            Toast toast = Toast.makeText(context, text, duration);
+            toast.show();
+        }
     }
 
     /**
@@ -105,7 +127,20 @@ public class MainActivity extends AppCompatActivity
      */
     public void decrement(View view)
     {
-        quantity = quantity - 1;
-        displayQuantity(quantity);
+        int minCups = 1;
+        if(quantity > minCups)
+        {
+            quantity = quantity - 1;
+            displayQuantity(quantity);
+        }
+        else
+        {
+            Context context = getApplicationContext();
+            CharSequence text = "Can't order less than " + minCups + " cup";
+            int duration = Toast.LENGTH_SHORT;
+
+            Toast toast = Toast.makeText(context, text, duration);
+            toast.show();
+        }
     }
 }
