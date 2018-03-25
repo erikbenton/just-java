@@ -39,15 +39,27 @@ public class MainActivity extends AppCompatActivity
         String name = nameField.getText().toString();
         CheckBox whippedCreamCheckBox = (CheckBox) findViewById(R.id.whipped_cream_checkbox);
         CheckBox chocloateCheckBox = (CheckBox) findViewById(R.id.chocolate_checkbox);
-        int price = calculatePrice();
         boolean hasWhippedCream = whippedCreamCheckBox.isChecked();
         boolean hasChocolate = chocloateCheckBox.isChecked();
+        int price = calculatePrice(hasWhippedCream, hasChocolate);
         displayMessage(createOrderSummary(name, price, hasWhippedCream, hasChocolate));
     }
 
-    private int calculatePrice()
+    private int calculatePrice(boolean hasWhippedCream, boolean hasChocolate)
     {
-        return quantity * 5;
+        int price = 5;
+
+        if(hasWhippedCream)
+        {
+            price += 1;
+        }
+
+        if(hasChocolate)
+        {
+            price += 2;
+        }
+
+        return quantity * price;
     }
 
     private String createOrderSummary(String name, int price, boolean addWhippedCream, boolean addChocolate)
