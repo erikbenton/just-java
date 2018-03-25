@@ -82,12 +82,12 @@ public class MainActivity extends AppCompatActivity
 
     private String createOrderSummary(String name, int price, boolean addWhippedCream, boolean addChocolate)
     {
-        String orderSummary = "Name: " + name + "\n";
-        orderSummary += "Quantity: " + quantity + "\n";
-        orderSummary += "Add whipped cream? " + addWhippedCream + "\n";
-        orderSummary += "Add chocolate? " + addChocolate + "\n";
-        orderSummary += "Total: $" + price + "\n";
-        orderSummary += "Thank You!";
+        String orderSummary = getString(R.string.name_order) + name + "\n";
+        orderSummary += getString(R.string.quantity_order) + quantity + "\n";
+        orderSummary += getString(R.string.whipped_cream_order) + addWhippedCream + "\n";
+        orderSummary += getString(R.string.chocolate_order) + addChocolate + "\n";
+        orderSummary += getString(R.string.total_order) + price + "\n";
+        orderSummary += getString(R.string.thank_you_order);
         return orderSummary;
     }
 
@@ -114,7 +114,7 @@ public class MainActivity extends AppCompatActivity
         else
         {
             Context context = getApplicationContext();
-            CharSequence text = "Can't order more than" + maxCups + " cups";
+            CharSequence text = getString(R.string.cant_order_more) + maxCups + getString(R.string.cups_order);
             int duration = Toast.LENGTH_SHORT;
 
             Toast toast = Toast.makeText(context, text, duration);
@@ -136,7 +136,7 @@ public class MainActivity extends AppCompatActivity
         else
         {
             Context context = getApplicationContext();
-            CharSequence text = "Can't order less than " + minCups + " cup";
+            CharSequence text = getString(R.string.cant_order_less) + minCups + getString(R.string.cups_order);
             int duration = Toast.LENGTH_SHORT;
 
             Toast toast = Toast.makeText(context, text, duration);
